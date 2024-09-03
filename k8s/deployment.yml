@@ -1,39 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  MYAPP
-  namespace: jenkins
+  name: nginx-deployment
   labels:
-    app:  MYAPP
+    app: nginx
 spec:
+  replicas: 3
   selector:
     matchLabels:
-      app: MYAPP
-  replicas: 1
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+      app: nginx
   template:
     metadata:
       labels:
-        app:  MYAPP
+        app: nginx
     spec:
-      # initContainers:
-        # Init containers are exactly like regular containers, except:
-          # - Init containers always run to completion.
-          # - Each init container must complete successfully before the next one starts.
       containers:
-      - name:  demo
-        image: srujankumar25/organization-service:demo
-        resources:
-          requests:
-            cpu: 100m
-            memory: 100Mi
-          limits:
-            cpu: 100m
-            memory: 100Mi
+      - name: nginx
+        image: nginx:1.14.2
         ports:
-        - containerPort:  80
-          name:  MYAPP
+        - containerPort: 80
